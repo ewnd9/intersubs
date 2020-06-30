@@ -9,29 +9,12 @@ import sys
 import random
 import re
 import time
-import requests
 import threading
-import queue
-import calendar
-import math
-import base64
-import numpy
-import ast
-
-from bs4 import BeautifulSoup
-
-from urllib.parse import quote
 from json import loads
-
-import warnings
-from six.moves import urllib
-
+import numpy
 from PyQt5.QtCore import Qt, QThread, QObject, pyqtSignal, pyqtSlot, QSize
 from PyQt5.QtWidgets import QApplication, QFrame, QVBoxLayout, QHBoxLayout, QLabel, QSizePolicy, QWidget
-from PyQt5.QtGui import QPalette, QPaintEvent, QPainter, QPainterPath, QFont, QFontMetrics, QColor, QPen, QBrush
-
-pth = os.path.expanduser('~/.config/mpv/scripts/')
-os.chdir(pth)
+from PyQt5.QtGui import QPalette, QPaintEvent, QPainter, QPainterPath, QFontMetrics, QColor, QPen, QBrush
 import interSubs_config as config
 from interSubs_providers import pons, google, reverso, linguee, dict_cc, redensarten, leo, tab_divided_dict, morfix, deepl, listen
 
@@ -133,7 +116,7 @@ def split_long_lines(line, chunks=2, max_symbols_per_line=False):
 
 def dir2(name):
     print('\n'.join(dir(name)))
-    exit()
+    sys.exit()
 
 
 class thread_subtitles(QObject):

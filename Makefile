@@ -4,4 +4,4 @@ format:
 
 .PHONY: lint
 lint:
-	pylint --rcfile=./standard.rc *.py
+	pylint --rcfile=./standard.rc --extension-pkg-whitelist=PyQt5 *.py

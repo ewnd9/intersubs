@@ -4,30 +4,18 @@
 # Interactive subtitles for `mpv` for language learners.
 
 import os
-import subprocess
-import sys
-import random
 import re
 import time
-import requests
-import threading
-import queue
 import calendar
 import math
 import base64
-import numpy
 import ast
-
-from bs4 import BeautifulSoup
-
-from urllib.parse import quote
-from json import loads
-
 import warnings
+from json import loads
+from urllib.parse import quote
+import requests
+from bs4 import BeautifulSoup
 from six.moves import urllib
-
-pth = os.path.expanduser('~/.config/mpv/scripts/')
-os.chdir(pth)
 import interSubs_config as config
 
 pons_combos = [
@@ -175,7 +163,7 @@ def pons(word):
 # https://github.com/ssut/py-googletrans
 
 
-class TokenAcquirer(object):
+class TokenAcquirer:
     """Google Translate API token generator
     translate.google.com uses a token to authorize the requests. If you are
     not Google, you do have this token and will have to pay for use.
@@ -713,8 +701,8 @@ def tab_divided_dict(word):
             offdict[word]) if config.tab_divided_dict_remove_tags_B else offdict[word]
         tr = tr.replace('\\n', '\n').replace('\\~', '~')
         return [[tr, '-']], ['', '']
-    else:
-        return [], ['', '']
+
+    return [], ['', '']
 
 # morfix.co.il
 
@@ -1034,13 +1022,13 @@ class gTTS:
         self.debug = debug
         if lang.lower() not in self.LANGUAGES:
             raise Exception('Language not supported: %s' % lang)
-        else:
-            self.lang = lang.lower()
+
+        self.lang = lang.lower()
 
         if not text:
             raise Exception('No text to speak')
-        else:
-            self.text = text
+
+        self.text = text
 
         # Read speed
         if slow:
@@ -1106,7 +1094,7 @@ class gTTS:
                 r.raise_for_status()
                 for chunk in r.iter_content(chunk_size=1024):
                     fp.write(chunk)
-            except Exception as e:
+            except:
                 raise
 
     def _len(self, text):
@@ -1139,5 +1127,5 @@ class gTTS:
             idx = thestring.rfind(delim, 0, max_size)
             return [thestring[:idx]] + \
                 self._minimize(thestring[idx:], delim, max_size)
-        else:
-            return [thestring]
+
+        return [thestring]

@@ -4,37 +4,14 @@
 # Interactive subtitles for `mpv` for language learners.
 
 import os
-import subprocess
 import sys
-import random
-import re
-import time
-import requests
-import threading
 import queue
-import calendar
-import math
-import base64
-import numpy
-import ast
-
-from bs4 import BeautifulSoup
-
-from urllib.parse import quote
-from json import loads
-
-import warnings
-from six.moves import urllib
-
-from PyQt5.QtCore import Qt, QThread, QObject, pyqtSignal, pyqtSlot, QSize
-from PyQt5.QtWidgets import QApplication, QFrame, QVBoxLayout, QHBoxLayout, QLabel, QSizePolicy, QWidget
-from PyQt5.QtGui import QPalette, QPaintEvent, QPainter, QPainterPath, QFont, QFontMetrics, QColor, QPen, QBrush
+from PyQt5.QtWidgets import QApplication
+import interSubs_config as config
+from interSubs_ui import main_class
 
 pth = os.path.expanduser('~/.config/mpv/scripts/')
 os.chdir(pth)
-import interSubs_config as config
-from interSubs_providers import pons, google, reverso, linguee, dict_cc, redensarten, leo, tab_divided_dict, morfix, deepl, listen
-from interSubs_ui import main_class
 
 if __name__ == "__main__":
     print('[py part] Starting interSubs ...')

@@ -138,7 +138,40 @@ disable=print-statement,
         xreadlines-attribute,
         deprecated-sys-function,
         exception-escape,
-        comprehension-escape
+        comprehension-escape,
+        line-too-long,
+        bad-continuation,
+        invalid-name,
+        missing-module-docstring,
+        broad-except,
+        too-many-lines,
+        anomalous-backslash-in-string,
+        missing-function-docstring,
+        len-as-condition,
+        too-many-branches,
+        too-many-statements,
+        no-self-use,
+        eval-used,
+        misplaced-comparison-constant,
+        too-many-locals,
+        too-few-public-methods,
+        pointless-string-statement,
+        missing-class-docstring,
+        multiple-statements
+        try-except-raise,
+        too-many-arguments,
+        unused-argument,
+        exec-used,
+        duplicate-code,
+        too-many-nested-blocks,
+        too-many-public-methods,
+        too-many-instance-attributes,
+        inconsistent-return-statements,
+        lost-exception,
+        multiple-statements,
+        try-except-raise
+
+
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
