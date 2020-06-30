@@ -10,9 +10,9 @@
 # make sure selected translation function supports your language and so that codes of your languages are correct
 # for instance Pons doesn't support Hebrew, Google and Reverso do, but their codes are different: 'iw' and 'he' respectively
 # translate from language
-lang_from = 'de'
+lang_from = 'en'
 # translate to language
-lang_to = 'en'
+lang_to = 'ru'
 
 # dictionaries to use, one or more
 # or other function's name you might write that will return ([[word, translation]..], [morphology = '', gender = ''])
