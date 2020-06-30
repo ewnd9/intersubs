@@ -3,7 +3,7 @@
 DEST="${HOME}/.config/mpv/scripts"
 mkdir -p "${DEST}"
 
-for file in $(echo "interSubs_config.py interSubs.lua interSubs.py")
+for file in $(echo "interSubs_config.py interSubs_providers.py interSubs.lua interSubs.py")
 do
   dest="${DEST}/${file}"
   if [[ ! -L ${dest} ]]
