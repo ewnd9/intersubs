@@ -215,12 +215,8 @@ class TokenAcquirer:
 
         # this will be the same as python code after stripping out a reserved
         # word 'var'
-        code = unicode(self.RE_TKK.search(r.text).group(1)).replace('var ', '')
-        # unescape special ascii characters such like a \x3d(=)
-        if PY3:  # pragma: no cover
-            code = code.encode().decode('unicode-escape')
-        else:  # pragma: no cover
-            code = code.decode('string_escape')
+        code = str(self.RE_TKK.search(r.text).group(1)).replace('var ', '')
+        code = code.encode().decode('unicode-escape')
 
         if code:
             tree = ast.parse(code)
@@ -694,11 +690,11 @@ def leo(word):
 
 
 def tab_divided_dict(word):
-    if word in offdict:
+    if word in config.offdict:
         tr = re.sub(
             '<.*?>',
             '',
-            offdict[word]) if config.tab_divided_dict_remove_tags_B else offdict[word]
+            config.offdict[word]) if config.tab_divided_dict_remove_tags_B else config.offdict[word]
         tr = tr.replace('\\n', '\n').replace('\\~', '~')
         return [[tr, '-']], ['', '']
 
@@ -798,8 +794,8 @@ def deepl(text):
     return translations[0]['beams'][0]['postprocessed_sentence']
 
 
-def listen(word, type='gtts'):
-    if type == 'pons':
+def listen(word, word_type='gtts'):
+    if word_type == 'pons':
         if config.lang_from + config.lang_to in pons_combos:
             url = 'http://en.pons.com/translate?q=%s&l=%s%s&in=%s' % (
                 quote(word), config.lang_from, config.lang_to, config.lang_from)
@@ -826,7 +822,7 @@ def listen(word, type='gtts'):
 
         os.system('(cd /tmp; wget ' + mp3 + '; mpv --load-scripts=no --loop=1 --volume=40 --force-window=no ' +
                   mp3.split('/')[-1] + '; rm ' + mp3.split('/')[-1] + ') &')
-    elif type == 'gtts':
+    elif word_type == 'gtts':
         gTTS(text=word, lang=config.lang_from,
              slow=False).save('/tmp/gtts_word.mp3')
         os.system(
@@ -835,7 +831,7 @@ def listen(word, type='gtts'):
             '; rm ' +
             '/tmp/gtts_word.mp3' +
             ') &')
-    elif type == 'forvo':
+    elif word_type == 'forvo':
         url = 'https://forvo.com/word/%s/%s/' % (config.lang_from, quote(word))
 
         try:

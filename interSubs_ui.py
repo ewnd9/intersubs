@@ -16,7 +16,7 @@ from PyQt5.QtCore import Qt, QThread, QObject, pyqtSignal, pyqtSlot, QSize
 from PyQt5.QtWidgets import QApplication, QFrame, QVBoxLayout, QHBoxLayout, QLabel, QSizePolicy, QWidget
 from PyQt5.QtGui import QPalette, QPaintEvent, QPainter, QPainterPath, QFontMetrics, QColor, QPen, QBrush
 import interSubs_config as config
-from interSubs_providers import pons, google, reverso, linguee, dict_cc, redensarten, leo, tab_divided_dict, morfix, deepl, listen
+import interSubs_providers as providers
 
 
 def mpv_pause():
@@ -240,7 +240,7 @@ class thread_translations(QObject):
             for translation_function_name in config.translation_function_names:
                 threads.append(
                     threading.Thread(
-                        target=globals()[translation_function_name],
+                        target=getattr(providers, translation_function_name),
                         args=(
                             word,
                         )))
@@ -492,7 +492,7 @@ class events_class(QLabel):
         mpv_message('auto_pause: %d' % config.auto_pause)
 
     def f_listen(self, event):
-        listen(self.word, config.listen_via)
+        providers.listen(self.word, config.listen_via)
 
     @pyqtSlot()
     def f_subs_screen_edge_padding_decrease(self, event):
@@ -780,7 +780,7 @@ class main_class(QWidget):
 
         if is_line:
             QApplication.setOverrideCursor(Qt.WaitCursor)
-            line = deepl(text)
+            line = providers.deepl(text)
             if config.split_long_lines_B and len(
                     line.split('\n')) == 1 and len(
                     line.split(' ')) > config.split_long_lines_words_min - 1:
@@ -794,7 +794,7 @@ class main_class(QWidget):
 
             for translation_function_name_i, translation_function_name in enumerate(
                     config.translation_function_names):
-                pairs, word_descr = globals()[translation_function_name](word)
+                pairs, word_descr = getattr(providers, translation_function_name)(word)
 
                 if not len(pairs):
                     pairs = [['', '[Not found]']]

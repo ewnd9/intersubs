@@ -22,7 +22,7 @@ if __name__ == "__main__":
         pass
 
     if 'tab_divided_dict' in config.translation_function_names:
-        offdict = {x.split('\t')[0].strip().lower(): x.split('\t')[1].strip() for x in open(
+        config.offdict = {x.split('\t')[0].strip().lower(): x.split('\t')[1].strip() for x in open(
             os.path.expanduser(config.tab_divided_dict_fname)).readlines() if '\t' in x}
 
     app = QApplication(sys.argv)
