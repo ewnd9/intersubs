@@ -24,7 +24,8 @@ lang_to = 'ru'
 #	google
 #	morfix (he/en en/he)
 #	redensarten (redensarten-index.de - German idioms etc.)
-#	tab_divided_dict - simple offline dictionary with word \t translation per line
+# tab_divided_dict - simple offline dictionary with word \t translation
+# per line
 translation_function_names = ['dict_cc', 'pons']
 # for automatic switch to Hebrew. Skip if it isn't your language.
 translation_function_names_2 = ['google', 'morfix']
@@ -43,7 +44,8 @@ tab_divided_dict_fname = '~/d/python_shit/mpv/scripts/z.dict'
 tab_divided_dict_remove_tags_B = True
 
 pause_during_translation_B = True
-# don't hide subtitle when its time is up and keep it on screen until the next line
+# don't hide subtitle when its time is up and keep it on screen until the
+# next line
 extend_subs_duration2max_B = True
 # limit extension duration in seconds; N == 0: do not limit
 extend_subs_duration_limit_sec = 33
@@ -52,13 +54,15 @@ hide_when_not_fullscreen_B = True
 
 # interval between checking for the next subtitle; in seconds
 update_time = .01
-# interval in seconds between checking if mpv is in focus using `xdotool` and/or in fullscreen; in seconds
+# interval in seconds between checking if mpv is in focus using `xdotool`
+# and/or in fullscreen; in seconds
 focus_checking_time = .1
 
 # firefox "https://en.wiktionary.org/wiki/${word}"
 show_in_browser = 'chromium "http://www.linguee.com/german-english/search?source=german&query=${word}"'
 
-# filename where to save words if needed by bound to mouse-button function f_save_word_to_file; checks if the word is already there.
+# filename where to save words if needed by bound to mouse-button function
+# f_save_word_to_file; checks if the word is already there.
 save_word_to_file_fname = '~/saved_words_by_interSubs'
 
 # for going through lines step by step
@@ -194,7 +198,7 @@ outline_bottom_padding = 2
 
 # highlighting the word under cursor
 hover_color = '#F44336'
-hover_hightlight = False	# may look ugly due to only int precision of QFontMetrics
+hover_hightlight = False  # may look ugly due to only int precision of QFontMetrics
 hover_underline = True
 hover_underline_thickness = 5
 
@@ -214,63 +218,71 @@ hover_underline_thickness = 5
 
 # https://doc.qt.io/qt-5/qt.html#MouseButton-enum
 # mouse_event:
-	# LeftButton
-	# RightButton
-	# MiddleButton (wheel-click)
-	# BackButton (Typically present on the 'thumb' side of a mouse with extra buttons. This is NOT the tilt wheel.)
-	# ForwardButton
+# LeftButton
+# RightButton
+# MiddleButton (wheel-click)
+# BackButton (Typically present on the 'thumb' side of a mouse with extra buttons. This is NOT the tilt wheel.)
+# ForwardButton
 
-	# wheel scroll up/down left/right names' are arbitrary and not from Qt
-	# ScrollUp
-	# ScrollDown
-	# ScrollLeft (This is the tilt wheel.)
-	# ScrollRight
+# wheel scroll up/down left/right names' are arbitrary and not from Qt
+# ScrollUp
+# ScrollDown
+# ScrollLeft (This is the tilt wheel.)
+# ScrollRight
 
 # Note: On macOS, the ControlModifier value corresponds to the Command keys on the keyboard.
 # https://doc.qt.io/qt-5/qt.html#KeyboardModifier-enum
 # modifier_key:
-	# NoModifier
-	# ControlModifier
-	# ShiftModifier
-	# AltModifier
+# NoModifier
+# ControlModifier
+# ShiftModifier
+# AltModifier
 
 # self_explanatory_function_name:
-	# f_show_in_browser
-	# f_auto_pause_options
-	# f_listen
-	# f_scroll_translations_down
-	# f_scroll_translations_up
-	# f_subs_screen_edge_padding_decrease
-	# f_subs_screen_edge_padding_increase
-	# f_font_size_decrease
-	# f_font_size_increase
-	# f_auto_pause_min_words_decrease
-	# f_auto_pause_min_words_increase
-	# f_deepl_translation
-	# f_save_word_to_file
+# f_show_in_browser
+# f_auto_pause_options
+# f_listen
+# f_scroll_translations_down
+# f_scroll_translations_up
+# f_subs_screen_edge_padding_decrease
+# f_subs_screen_edge_padding_increase
+# f_font_size_decrease
+# f_font_size_increase
+# f_auto_pause_min_words_decrease
+# f_auto_pause_min_words_increase
+# f_deepl_translation
+# f_save_word_to_file
 
 mouse_buttons = [
-	['LeftButton',		'NoModifier',		'f_show_in_browser'],
-	['RightButton',		'NoModifier',		'f_deepl_translation'],
-	['MiddleButton',	'NoModifier',		'f_auto_pause_options'],
+    ['LeftButton', 'NoModifier', 'f_show_in_browser'],
+    ['RightButton', 'NoModifier', 'f_deepl_translation'],
+    ['MiddleButton', 'NoModifier', 'f_auto_pause_options'],
 
-	['BackButton',		'NoModifier',		'f_listen'],
+    ['BackButton', 'NoModifier', 'f_listen'],
 
-	['ScrollDown',		'NoModifier',		'f_scroll_translations_down'],
-	['ScrollUp',		'NoModifier',		'f_scroll_translations_up'],
+    ['ScrollDown', 'NoModifier', 'f_scroll_translations_down'],
+    ['ScrollUp', 'NoModifier', 'f_scroll_translations_up'],
 
-	['ScrollDown',		'ControlModifier',		'f_font_size_decrease'],
-	['ScrollUp',		'ControlModifier',		'f_font_size_increase'],
+    ['ScrollDown', 'ControlModifier', 'f_font_size_decrease'],
+    ['ScrollUp', 'ControlModifier', 'f_font_size_increase'],
 
-	['ScrollLeft',		'NoModifier',		'f_auto_pause_min_words_decrease'],
-	['ScrollRight',		'NoModifier',		'f_auto_pause_min_words_increase'],
+    ['ScrollLeft', 'NoModifier', 'f_auto_pause_min_words_decrease'],
+    ['ScrollRight', 'NoModifier', 'f_auto_pause_min_words_increase'],
 
-	['ScrollDown',		'ShiftModifier',		'f_subs_screen_edge_padding_decrease'],
-	['ScrollUp',		'ShiftModifier',		'f_subs_screen_edge_padding_increase'],
+    ['ScrollDown', 'ShiftModifier', 'f_subs_screen_edge_padding_decrease'],
+    ['ScrollUp', 'ShiftModifier', 'f_subs_screen_edge_padding_increase'],
 ]
 
 # http://culmus.sourceforge.net/summary.html
-he_fonts = ['Miriam', 'Miriam Mono', 'Drugulin', 'David', 'Frank Ruehl', 'Shofar', 'Varela Round', 'FiraGO']
+he_fonts = [
+    'Miriam',
+    'Miriam Mono',
+    'Drugulin',
+    'David',
+    'Frank Ruehl',
+    'Shofar',
+    'Varela Round',
+    'FiraGO']
 
 # obsolete vars
 hover_underline_width = hover_underline_thickness
