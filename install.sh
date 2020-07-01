@@ -1,16 +1,27 @@
-#!/bin/sh
+#!/bin/bash
 
-DEST="${HOME}/.config/mpv/scripts"
-mkdir -p "${DEST}"
+SCRIPTS="${HOME}/.config/mpv/scripts"
+mkdir -p "${SCRIPTS}"
 
-for file in $(echo "interSubs_config.py interSubs_providers.py interSubs_ui.py interSubs.lua interSubs.py")
-do
-  dest="${DEST}/${file}"
+link () {
+  local src=$1
+  local dest=$2
+
   if [[ ! -L ${dest} ]]
   then
-    ln -s "${PWD}/${file}" ${dest}
+    ln -s "${src}" "${dest}"
     echo "${dest} linked"
   else
     echo "${dest} existed"
   fi
+}
+
+for file in $(ls intersubs)
+do
+  link "${PWD}/intersubs/${file}" "${SCRIPTS}/${file}"
+done
+
+for file in $(ls intersubs.lua)
+do
+  link "${PWD}/${file}" "${SCRIPTS}/${file}"
 done

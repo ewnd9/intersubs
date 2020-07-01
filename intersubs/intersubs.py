@@ -7,8 +7,8 @@ import os
 import sys
 import queue
 from PyQt5.QtWidgets import QApplication
-import interSubs_config as config
-from interSubs_ui import main_class
+import intersubs_config as config
+from intersubs_ui import MainView
 
 pth = os.path.expanduser('~/.config/mpv/scripts/')
 os.chdir(pth)
@@ -38,5 +38,5 @@ if __name__ == "__main__":
     config.sub_file = sys.argv[2]
     config.subs = ''
 
-    form = main_class()
+    form = MainView()
     app.exec_()

@@ -19,7 +19,7 @@ mpv_socket = '/tmp/mpv_socket'
 keybinding = 'F5'
 keybinding_hide = 'F6'
 
-pyname = '~/.config/mpv/scripts/interSubs.py'
+pyname = '~/.config/mpv/scripts/intersubs.py'
 
 ------------------------------------------------------
 
@@ -50,15 +50,15 @@ function s1()
 
 	mpv_socket_2 = mpv_socket .. '_' .. rnbr
 	sub_file_2 =  sub_file .. '_' .. rnbr
-	
+
 	-- setting up socket to control mpv
 	mp.set_property("input-ipc-server", mpv_socket_2)
-	
+
 	-- without visible subs won't work
 	sbv = mp.get_property("sub-visibility")
 	mp.set_property("sub-visibility", "yes")
 	mp.set_property("sub-ass-override", "force")
-	
+
 	sub_color1 = mp.get_property("sub-color", "1/1/1/1")
 	sub_color2 = mp.get_property("sub-border-color", "0/0/0/1")
 	sub_color3 = mp.get_property("sub-shadow-color", "0/0/0/1")
@@ -99,7 +99,7 @@ function started()
 	if mp.get_property("sub") == 'no' then
 		return true
 	end
-	
+
 	hidden = false
 
 	for kk, pp in pairs(autostart_in) do

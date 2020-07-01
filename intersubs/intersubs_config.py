@@ -2,6 +2,7 @@
 
 # v. 2.7
 # Interactive subtitles for `mpv` for language learners.
+# pylint: disable=invalid-name
 
 #########################################
 # all *_B variables are boolean

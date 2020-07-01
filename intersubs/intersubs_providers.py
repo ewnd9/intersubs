@@ -16,7 +16,7 @@ from urllib.parse import quote
 import requests
 from bs4 import BeautifulSoup
 from six.moves import urllib
-import interSubs_config as config
+import intersubs_config as config
 
 pons_combos = [
     'enes',
@@ -344,7 +344,7 @@ class TokenAcquirer:
 
         return '{}.{}'.format(a, a ^ b)
 
-    def do(self, text):
+    def do(self, text): # pylint: disable=invalid-name
         self._update()
         tk = self.acquire(text)
         return tk
@@ -823,7 +823,7 @@ def listen(word, word_type='gtts'):
         os.system('(cd /tmp; wget ' + mp3 + '; mpv --load-scripts=no --loop=1 --volume=40 --force-window=no ' +
                   mp3.split('/')[-1] + '; rm ' + mp3.split('/')[-1] + ') &')
     elif word_type == 'gtts':
-        gTTS(text=word, lang=config.lang_from,
+        GTTS(text=word, lang=config.lang_from,
              slow=False).save('/tmp/gtts_word.mp3')
         os.system(
             '(mpv --load-scripts=no --loop=1 --volume=75 --force-window=no ' +
@@ -946,8 +946,8 @@ class Token:
 # https://github.com/pndurette/gTTS
 
 
-class gTTS:
-    """ gTTS (Google Text to Speech): an interface to Google's Text to Speech API """
+class GTTS:
+    """ GTTS (Google Text to Speech): an interface to Google's Text to Speech API """
 
     # Google TTS API supports two read speeds
     # (speed <= 0.3: slow; speed > 0.3: normal; default: 1)

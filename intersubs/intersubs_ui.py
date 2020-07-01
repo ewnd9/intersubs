@@ -15,8 +15,8 @@ import numpy
 from PyQt5.QtCore import Qt, QThread, QObject, pyqtSignal, pyqtSlot, QSize
 from PyQt5.QtWidgets import QApplication, QFrame, QVBoxLayout, QHBoxLayout, QLabel, QSizePolicy, QWidget
 from PyQt5.QtGui import QPalette, QPaintEvent, QPainter, QPainterPath, QFontMetrics, QColor, QPen, QBrush
-import interSubs_config as config
-import interSubs_providers as providers
+import intersubs_config as config
+import intersubs_providers as providers
 
 
 def mpv_pause():
@@ -119,7 +119,7 @@ def dir2(name):
     sys.exit()
 
 
-class thread_subtitles(QObject):
+class ThreadSubtitles(QObject):
     update_subtitles = pyqtSignal(bool, bool)
 
     @pyqtSlot()
@@ -219,7 +219,7 @@ class thread_subtitles(QObject):
                 break
 
 
-class thread_translations(QObject):
+class ThreadTranslations(QObject):
     get_translations = pyqtSignal(str, int, bool)
 
     @pyqtSlot()
@@ -266,7 +266,7 @@ class thread_translations(QObject):
 # because can't calculate outline with precision
 
 
-class drawing_layer(QLabel):
+class DrawingLayer(QLabel):
     def __init__(self, line, subs, parent=None):
         super().__init__(None)
         self.line = line
@@ -339,7 +339,7 @@ class drawing_layer(QLabel):
         painter.drawText(x, y, text)
 
     if config.outline_B:
-        def paintEvent(self, evt: QPaintEvent):
+        def paintEvent(self, evt: QPaintEvent): # pylint: disable=invalid-name
             if not self.psuedo_line:
                 self.psuedo_line = 1
                 return
@@ -357,7 +357,7 @@ class drawing_layer(QLabel):
                 text=self.line
             )
 
-        def resizeEvent(self, *args):
+        def resizeEvent(self, *args): # pylint: disable=invalid-name
             self.setFixedSize(
                 self.fontMetrics().width(self.line),
                 self.fontMetrics().height() +
@@ -365,14 +365,14 @@ class drawing_layer(QLabel):
                 config.outline_top_padding
             )
 
-        def sizeHint(self):
+        def sizeHint(self): # pylint: disable=invalid-name
             return QSize(
                 self.fontMetrics().width(self.line),
                 self.fontMetrics().height()
             )
 
 
-class events_class(QLabel):
+class EventsClass(QLabel):
     mouseHover = pyqtSignal(str, int, bool)
     redraw = pyqtSignal(bool, bool)
 
@@ -421,7 +421,7 @@ class events_class(QLabel):
                 self.word)
 
     if config.outline_B:
-        def paintEvent(self, evt: QPaintEvent):
+        def paintEvent(self, evt: QPaintEvent): # pylint: disable=invalid-name
             if self.highlight:
                 self.highligting(
                     config.hover_color,
@@ -429,7 +429,7 @@ class events_class(QLabel):
 
     #####################################################
 
-    def resizeEvent(self, event):
+    def resizeEvent(self, event): # pylint: disable=invalid-name
         text_height = self.fontMetrics().height()
         text_width = self.fontMetrics().width(self.word)
 
@@ -439,14 +439,14 @@ class events_class(QLabel):
             config.outline_bottom_padding +
             config.outline_top_padding)
 
-    def enterEvent(self, event):
+    def enterEvent(self, event): # pylint: disable=invalid-name
         if not self.skip:
             self.highlight = True
             self.repaint()
             config.queue_to_translate.put((self.word, event.globalX()))
 
     @pyqtSlot()
-    def leaveEvent(self, event):
+    def leaveEvent(self, event): # pylint: disable=invalid-name
         if not self.skip:
             self.highlight = False
             self.repaint()
@@ -465,13 +465,13 @@ class events_class(QLabel):
         if event.x():
             return 'ScrollRight'
 
-    def wheelEvent(self, event):
+    def wheelEvent(self, event): # pylint: disable=invalid-name
         for mouse_action in config.mouse_buttons:
             if self.wheel_scrolling(event.angleDelta()) == mouse_action[0]:
                 if event.modifiers() == eval('Qt.%s' % mouse_action[1]):
                     exec('self.%s(event)' % mouse_action[2])
 
-    def mousePressEvent(self, event):
+    def mousePressEvent(self, event): # pylint: disable=invalid-name
         for mouse_action in config.mouse_buttons:
             if 'Scroll' not in mouse_action[0]:
                 if event.button() == eval('Qt.%s' % mouse_action[0]):
@@ -588,19 +588,19 @@ class events_class(QLabel):
         self.mouseHover.emit(self.word, event.globalX(), False)
 
 
-class main_class(QWidget):
+class MainView(QWidget):
     def __init__(self):
         super().__init__()
 
         self.thread_subs = QThread()
-        self.obj = thread_subtitles()
+        self.obj = ThreadSubtitles()
         self.obj.update_subtitles.connect(self.render_subtitles)
         self.obj.moveToThread(self.thread_subs)
         self.thread_subs.started.connect(self.obj.main)
         self.thread_subs.start()
 
         self.thread_translations = QThread()
-        self.obj2 = thread_translations()
+        self.obj2 = ThreadTranslations()
         self.obj2.get_translations.connect(self.render_popup)
         self.obj2.moveToThread(self.thread_translations)
         self.thread_translations.started.connect(self.obj2.main)
@@ -611,7 +611,7 @@ class main_class(QWidget):
         self.subtitles_base2()
         self.popup_base()
 
-    def clearLayout(self, layout):
+    def clearLayout(self, layout): # pylint: disable=invalid-name
         if layout == 'subs':
             layout = self.subtitles_vbox
             self.subtitles.hide()
@@ -707,7 +707,7 @@ class main_class(QWidget):
 
             for line in subs2.split('\n'):
                 line2 = ' %s ' % line.strip()
-                ll = drawing_layer(line2, subs2)
+                ll = DrawingLayer(line2, subs2)
 
                 hbox = QHBoxLayout()
                 hbox.setContentsMargins(0, 0, 0, 0)
@@ -737,7 +737,7 @@ class main_class(QWidget):
                             if config.R2L_from_B:
                                 word = word[::-1]
 
-                            ll = events_class(word, subs2)
+                            ll = EventsClass(word, subs2)
                             ll.mouseHover.connect(self.render_popup)
                             ll.redraw.connect(self.render_subtitles)
 
@@ -745,7 +745,7 @@ class main_class(QWidget):
                             word = ''
 
                         if smbl != '\00':
-                            ll = events_class(smbl, subs2, skip=True)
+                            ll = EventsClass(smbl, subs2, skip=True)
                             hbox.addWidget(ll)
 
                 hbox.addStretch()
