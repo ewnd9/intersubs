@@ -1,0 +1,8 @@
+PyQt5
+numpy
+requests
+bs4
+six
+lxml
+autopep8
+pylint

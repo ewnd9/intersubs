@@ -7,7 +7,7 @@
 --
 -- dirs in which interSubs will start automatically; part of path/filename will also work; case insensitive; regexp
 -- autostart_in = {'German', ' ger ', '%.ger%.', 'Deutsch', 'Hebrew'}
-autostart_in = {'Hebrew'}
+autostart_in = {'English'}
 
 -- for Mac change python3 to python or pythonw
 start_command = 'python3 "%s" "%s" "%s"'
@@ -102,12 +102,12 @@ function started()
 
 	hidden = false
 
-	for kk, pp in pairs(autostart_in) do
-		if mp.get_property("path"):lower():find(pp:lower()) or mp.get_property("working-directory"):lower():find(pp:lower()) then
-			s1()
-			break
-		end
-	end
+	s1()
+	-- for kk, pp in pairs(autostart_in) do
+	-- 	if mp.get_property("path"):lower():find(pp:lower()) or mp.get_property("working-directory"):lower():find(pp:lower()) then
+	-- 		break
+	-- 	end
+	-- end
 end
 
 function s1_1()

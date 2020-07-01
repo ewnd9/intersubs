@@ -13,6 +13,7 @@ import ast
 import warnings
 from json import loads
 from urllib.parse import quote
+from urllib3.exceptions import InsecureRequestWarning
 import requests
 from bs4 import BeautifulSoup
 from six.moves import urllib
@@ -1075,7 +1076,7 @@ class GTTS:
                 # ssl verify here
                 with warnings.catch_warnings():
                     warnings.filterwarnings(
-                        "ignore", category=requests.packages.urllib3.exceptions.InsecureRequestWarning)
+                        "ignore", category=InsecureRequestWarning)
                     r = requests.get(self.GOOGLE_TTS_URL,
                                      params=payload,
                                      headers=headers,

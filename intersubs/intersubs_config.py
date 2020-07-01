@@ -51,7 +51,7 @@ extend_subs_duration2max_B = True
 # limit extension duration in seconds; N == 0: do not limit
 extend_subs_duration_limit_sec = 33
 # show interSubs only in fullscreen
-hide_when_not_fullscreen_B = True
+hide_when_not_fullscreen_B = False
 
 # interval between checking for the next subtitle; in seconds
 update_time = .01
@@ -89,7 +89,7 @@ R2L_to_B = False
 # show subtitles at the top of the screen
 subs_top_placement_B = False
 # distance to the edge; in px
-subs_screen_edge_padding = 1
+subs_screen_edge_padding = 100
 subs_padding_between_lines = 0
 
 # when subtitle consists of only one overly long line - splitting into two

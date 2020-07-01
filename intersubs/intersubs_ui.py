@@ -10,6 +10,7 @@ import random
 import re
 import time
 import threading
+import platform
 from json import loads
 import numpy
 from PyQt5.QtCore import Qt, QThread, QObject, pyqtSignal, pyqtSlot, QSize
@@ -132,24 +133,26 @@ class ThreadSubtitles(QObject):
         while 1:
             time.sleep(config.update_time)
 
-            # hide subs when mpv isn't in focus or in fullscreen
-            if inc * config.update_time > config.focus_checking_time - 0.0001 and not config.testing:
-                while 'mpv' not in subprocess.getoutput('xdotool getwindowfocus getwindowname') or (
-                    config.hide_when_not_fullscreen_B and not mpv_fullscreen_status()) or (
-                    os.path.exists(
-                        config.mpv_socket + '_hide')):
-                    if not was_hidden:
-                        self.update_subtitles.emit(True, False)
-                        was_hidden = 1
-                    else:
-                        time.sleep(config.focus_checking_time)
-                inc = 0
-            inc += 1
+            if platform.system() == 'Linux':
+                # hide subs when mpv isn't in focus or in fullscreen
+                if inc * config.update_time > config.focus_checking_time - \
+                        0.0001 and not config.testing:
+                    while 'mpv' not in subprocess.getoutput('xdotool getwindowfocus getwindowname') or (
+                        config.hide_when_not_fullscreen_B and not mpv_fullscreen_status()) or (
+                        os.path.exists(
+                            config.mpv_socket + '_hide')):
+                        if not was_hidden:
+                            self.update_subtitles.emit(True, False)
+                            was_hidden = 1
+                        else:
+                            time.sleep(config.focus_checking_time)
+                    inc = 0
+                inc += 1
 
-            if was_hidden:
-                was_hidden = 0
-                self.update_subtitles.emit(False, False)
-                continue
+                if was_hidden:
+                    was_hidden = 0
+                    self.update_subtitles.emit(False, False)
+                    continue
 
             try:
                 tmp_file_subs = open(config.sub_file).read()
@@ -635,7 +638,8 @@ class MainView(QWidget):
     def subtitles_base(self):
         self.subtitles = QFrame()
         self.subtitles.setAttribute(Qt.WA_TranslucentBackground)
-        self.subtitles.setWindowFlags(Qt.X11BypassWindowManagerHint)
+        self.subtitles.setWindowFlags(
+            Qt.WindowStaysOnTopHint | Qt.X11BypassWindowManagerHint | Qt.FramelessWindowHint)
         self.subtitles.setStyleSheet(config.style_subs)
 
         self.subtitles_vbox = QVBoxLayout(self.subtitles)
@@ -645,7 +649,8 @@ class MainView(QWidget):
     def subtitles_base2(self):
         self.subtitles2 = QFrame()
         self.subtitles2.setAttribute(Qt.WA_TranslucentBackground)
-        self.subtitles2.setWindowFlags(Qt.X11BypassWindowManagerHint)
+        self.subtitles2.setWindowFlags(
+            Qt.WindowStaysOnTopHint | Qt.X11BypassWindowManagerHint | Qt.FramelessWindowHint)
         self.subtitles2.setStyleSheet(config.style_subs)
 
         self.subtitles_vbox2 = QVBoxLayout(self.subtitles2)
@@ -665,7 +670,8 @@ class MainView(QWidget):
     def popup_base(self):
         self.popup = QFrame()
         self.popup.setAttribute(Qt.WA_TranslucentBackground)
-        self.popup.setWindowFlags(Qt.X11BypassWindowManagerHint)
+        self.popup.setWindowFlags(
+            Qt.WindowStaysOnTopHint | Qt.X11BypassWindowManagerHint | Qt.FramelessWindowHint)
         self.popup.setStyleSheet(config.style_popup)
 
         self.popup_inner = QFrame()
