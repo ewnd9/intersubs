@@ -6,6 +6,7 @@
 import os
 import sys
 import queue
+import signal
 from PyQt5.QtWidgets import QApplication
 import intersubs_config as config
 from intersubs_ui import MainView
@@ -15,6 +16,7 @@ os.chdir(pth)
 
 if __name__ == "__main__":
     print('[py part] Starting interSubs ...')
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
 
     try:
         os.mkdir('urls')
