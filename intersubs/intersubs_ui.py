@@ -12,8 +12,8 @@ import time
 import threading
 from json import loads
 import numpy
-from PyQt5.QtCore import Qt, QThread, QObject, pyqtSignal, pyqtSlot, QSize
-from PyQt5.QtWidgets import QApplication, QFrame, QVBoxLayout, QHBoxLayout, QLabel, QSizePolicy, QWidget
+from PyQt5.QtCore import Qt, QThread, QObject, pyqtSignal, pyqtSlot, QSize, QTimer
+from PyQt5.QtWidgets import QApplication, QFrame, QVBoxLayout, QHBoxLayout, QLabel, QSizePolicy, QWidget, QTextEdit
 from PyQt5.QtGui import QPalette, QPaintEvent, QPainter, QPainterPath, QFontMetrics, QColor, QPen, QBrush
 import intersubs_config as config
 import intersubs_providers as providers
@@ -375,6 +375,7 @@ class DrawingLayer(QLabel):
 class EventsClass(QLabel):
     mouseHover = pyqtSignal(str, int, bool)
     redraw = pyqtSignal(bool, bool)
+    show_text_edit = pyqtSignal(str, int)
 
     def __init__(self, word, subs, skip=False, parent=None):
         super().__init__(word)
@@ -552,7 +553,7 @@ class EventsClass(QLabel):
 
     @pyqtSlot()
     def f_deepl_translation(self, event):
-        self.mouseHover.emit(self.subs, event.globalX(), True)
+        self.show_text_edit.emit(self.subs, event.globalX())
 
     def f_save_word_to_file(self, event):
         if (
@@ -610,6 +611,7 @@ class MainView(QWidget):
         self.subtitles_base()
         self.subtitles_base2()
         self.popup_base()
+        self.text_edit_base()
 
     def clearLayout(self, layout): # pylint: disable=invalid-name
         if layout == 'subs':
@@ -740,6 +742,7 @@ class MainView(QWidget):
                             ll = EventsClass(word, subs2)
                             ll.mouseHover.connect(self.render_popup)
                             ll.redraw.connect(self.render_subtitles)
+                            ll.show_text_edit.connect(self.render_text_edit)
 
                             hbox.addWidget(ll)
                             word = ''
@@ -769,6 +772,42 @@ class MainView(QWidget):
 
         self.subtitles2.setGeometry(x, y, 0, 0)
         self.subtitles2.show()
+
+    def text_edit_base(self):
+        self.text_edit_frame = QFrame()
+        layout = QVBoxLayout()
+
+        self.text_edit = QTextEdit("")
+        self.text_edit.setLineWrapMode(QTextEdit.NoWrap)
+        layout.addWidget(self.text_edit)
+
+        self.text_edit_frame_results = QVBoxLayout()
+        layout.addLayout(self.text_edit_frame_results)
+
+        self.debounce = QTimer()
+        self.debounce.setInterval(500)
+        self.debounce.setSingleShot(True)
+        self.debounce.timeout.connect(self.debounced)
+
+        self.text_edit.textChanged.connect(self.debounce.start)
+        self.text_edit_frame.setLayout(layout)
+
+
+    def render_text_edit(self, text, x_cursor_pos):
+        self.text_edit.setText(text)
+        self.text_edit_frame.setGeometry(x_cursor_pos, 500, 300, 300)
+        self.text_edit_frame.show()
+
+
+    def debounced(self):
+        text = self.text_edit.toPlainText()
+
+        for translation_function_name_i, translation_function_name in enumerate(
+                config.translation_function_names):
+            pairs, other = getattr(providers, translation_function_name)(text)
+            print(translation_function_name_i, pairs, other)
+            self.text_edit_frame_results.addWidget(QLabel(pairs[0][0]))
+
 
     def render_popup(self, text, x_cursor_pos, is_line):
         if text == '':
