@@ -38,6 +38,7 @@ if __name__ == "__main__":
 
     config.mpv_socket = sys.argv[1]
     config.sub_file = sys.argv[2]
+    config.testing = len(sys.argv) > 3
     config.subs = ''
 
     form = MainView()

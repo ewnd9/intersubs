@@ -133,7 +133,7 @@ class ThreadSubtitles(QObject):
             time.sleep(config.update_time)
 
             # hide subs when mpv isn't in focus or in fullscreen
-            if inc * config.update_time > config.focus_checking_time - 0.0001:
+            if inc * config.update_time > config.focus_checking_time - 0.0001 and not config.testing:
                 while 'mpv' not in subprocess.getoutput('xdotool getwindowfocus getwindowname') or (
                     config.hide_when_not_fullscreen_B and not mpv_fullscreen_status()) or (
                     os.path.exists(
